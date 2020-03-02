@@ -1,5 +1,19 @@
-const getList = (author, keyword) => {
+const exec = require('../db/mysql')
 
+
+const getList = (author, keyword) => {
+  let sql = `select * from blog  where 1=1`
+
+  if (author) {
+    sql += `and author='${author}' `
+  }
+  if (keyword) {
+    sql += `and title like '%${keyword}%' `
+  }
+
+
+
+  return exec(sql)
 }
 
 

@@ -32,11 +32,13 @@ const getPostData = (req) => {
     })
 
   })
+  return promise
 }
 
 // 服务器要做的事
 const serverHandle = (req, res) => {
-  res.serverHandle('Content-type', 'application/json')
+  res.setHeader('Content-type', 'application/json')
+  res.setHeader('Access-Control-Allow-Origin', '*');
 
   const url = req.url
   req.path = url.split('?')[0]
@@ -46,13 +48,19 @@ const serverHandle = (req, res) => {
 
   getPostData(req).then(postData => {
     req.body = postData
-    const blogData = handleBlogRouter(req, res)
-    if (blogData) {
-      res.end(
-        JSON.stringify(blogData)
-      )
+
+
+    const blogResult = handleBlogRouter(req, res)
+    if (blogResult) {
+      blogResult.then(blogData => {
+        res.end(
+          JSON.stringify(blogData)
+        )
+      })
       return
     }
+
+
 
     const userData = handleUserRouter(req, res)
     if (userData) {
@@ -62,7 +70,7 @@ const serverHandle = (req, res) => {
       return
     }
     res.writeHead(404, { "Content-type": "text/plain" })
-    res.write("404 not found")
+    res.write("请求失败")
     res.end()
   })
 
