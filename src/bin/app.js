@@ -1,5 +1,5 @@
 const http = require('http')
-const mysql = require('mysql')
+
 const serverHandle = require('../../index')
 
 

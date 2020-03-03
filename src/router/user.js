@@ -4,7 +4,7 @@ const handleUserRouter = (req, res) => {
   const method = req.method
 
 
-  if (method === 'POST' && path === '/api/blog/login') {
+  if (method === 'POST' && req.path === '/api/blog/login') {
     return {
       msg: '登录接口'
     }
